@@ -1,3 +1,8 @@
 * .emacs.d
 
 This is my personal emacs configuration. It's a mixture of literary programming and straight elisp files.
+
+** TO DOs 
+*** TODO Create a set of scripts to install the fonts you use 
+*** TODO Create a lisp directory 
+*** TODO Create a set of custom functions to use 
