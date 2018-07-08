@@ -1,0 +1,3 @@
+* .emacs.d
+
+This is my personal emacs configuration. It's a mixture of literary programming and straight elisp files.
