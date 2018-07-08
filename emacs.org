@@ -1,0 +1,434 @@
+* emacs.org
+This is my emacs config file - /literary-programming-Donald-Knuth-kung-fu-style/. 
+
+This config file is meant to be read as a document and tutorial, with some jokes sprinkled in (although the 
+jokes are really meant to make me laugh, not you). 
+
+I recently upgraded to emacs25, here's how to do it on a debian-system:
+
+- sudo add-apt-repository ppa:kelleyk/emacs
+- sudo apt-get update
+- sudo apt-get install emacs25 
+- Then cd into your .emacs.d and run the following command
+  - find . -name "*.elc" -type f | xargs rm -f
+  - Formatting changes with emacs25, this command deletes all .elc files to start over 
+
+* Packages
+** Package Archives 
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
+#+END_SRC
+** Use Package 
+Use-package can be used to automatically install packages, except itself. This proves that the chicken came before the egg! 
+#+BEGIN_SRC emacs-lisp
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package)) 
+(require 'diminish)          
+(require 'bind-key)         
+
+(setq-default use-package-always-ensure t)
+#+END_SRC
+** Package Updates 
+I like keeping my packages up-to-date. I want to be able to use Emacs anywhere I can load my dotfiles - so I always want Emacs to act the same. Having
+my packages always up-to-date is an easy way to make sure that they're all the same version.
+
+The command (auto-package-update-now) will update installed Emacs packages right now. 
+The command (auto-package-update-maybe) will update packages if at least auto-package-update-interval days have passed since the last update.
+
+[[https://github.com/rranelli/auto-package-update.el][auto-package-update]] 
+#+BEGIN_SRC emacs-lisp
+(require 'auto-package-update)
+(setq auto-package-update-prompt-before-update t)  
+(auto-package-update-maybe)  
+#+END_SRC  
+** Error Handling  
+I'm not comfortable running Emacs knowing there's some sort of error - it's like driving your car with lights on your dashboard (except I take 
+much better care of my text editor than my car).
+
+But - everyone should leave this commented until they want to debug an error. Leaving this on is like driving a car where whenever something goes wrong the car falls apart so that 
+you can examine every single piece.
+#+BEGIN_SRC emacs-lisp
+;(setq debug-on-error t)
+#+END_SRC
+** Secrets
+There's some stuff that I definitely /shouldn't/ share on github. 
+(Just search for "removed password" on github) 
+#+BEGIN_SRC emacs-lisp
+(load-file "~/Dropbox/org/secrets.el")
+(setq auth-sources
+    '((:source "~/Dropbox/org/.authinfo.gpg")))
+#+END_SRC 
+* Base Emacs Options  
+#+BEGIN_SRC emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+(global-linum-mode -1)
+(scroll-bar-mode -1)
+
+(setq inhibit-eol-conversion t)
+
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+#+END_SRC 
+* Navigation
+** Evil 
+#+BEGIN_SRC emacs-lisp
+;bind c-x r to redo and c-r to isearch-backward
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode))
+#+END_SRC 
+** Helm
+#+BEGIN_SRC emacs-lisp
+(use-package helm
+  :diminish
+  :ensure t 
+  :init 
+  (progn 
+    (require 'helm-config)
+    (require 'helm-fuzzier)
+    (setq helm-idle-delay 0.0 
+          helm-input-idle-delay 0.01
+          helm-flx-for-helm-find-files t 
+          helm-flx-for-helm-locate t
+          helm-M-x-fuzzy-match t) 
+    (helm-mode))
+  :bind (("C-c h" . helm-mini)
+         ("C-x C-b" . helm-buffers-list)
+         ("C-x b" . helm-buffers-list)
+         ("C-x l" . helm-locate)
+         ("M-x" . helm-M-x)
+         ("C-x C-f" . helm-find-files)))
+
+(helm-flx-mode 1) 
+(helm-fuzzier-mode 1) 
+#+END_SRC
+** Which-key 
+#+BEGIN_SRC elisp
+(setq which-key-idle-delay 0.5)
+(use-package which-key
+  :ensure t
+  :hook (emacs-startup-hook . which-key-mode))
+#+END_SRC
+** Neo Tree 
+#+BEGIN_SRC emacs-lisp
+(use-package neotree 
+  :config
+  (global-set-key [f8] 'neotree-toggle) 
+  (add-hook 'neotree-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+              (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-quick-look)
+              (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+              (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))) 
+#+END_SRC 
+* Appearance 
+Basic Emacs options on appearance: 
+#+BEGIN_SRC emacs-lisp
+(set-default-font "-*-Hack-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
+(add-to-list 'default-frame-alist 
+             '(font . "-*-Hack-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1"))
+
+(use-package monokai-theme)
+(load-theme 'monokai t)
+
+(use-package powerline
+  :init 
+  (powerline-default-theme)) 
+
+(use-package diminish) 
+
+(use-package delight)
+
+(use-package dashboard
+  :init 
+  (setq dashboard-banner-logo-title "I use Emacs, which might be thought of as a thermonuclear word processor. - Neal Stephenson"
+        dashboard-startup-banner 'logo 
+        dashboard-items '((bookmarks . 5)
+                          (agenda . 5))) 
+  :config 
+  (dashboard-setup-startup-hook))
+
+(use-package beacon 
+  :init 
+  (beacon-mode 1)) 
+
+(use-package rainbow-mode
+  :diminish
+  :init 
+  (rainbow-mode 1))
+#+END_SRC 
+* Tools
+** Babel
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t
+  org-src-tab-acts-natively t
+  org-confirm-babel-evaluate nil
+  org-edit-src-content-indentation 0)
+#+END_SRC
+** Diff 
+#+BEGIN_SRC emacs-lisp
+(use-package ediff)
+#+END_SRC 
+* Org 
+Here are my custom org mode configs
+#+BEGIN_SRC emacs-lisp
+(if (eq system-type 'gnu/linux) (setq org-agenda-files '("~/Dropbox/org/tasks.org" 
+                                                         "~/Dropbox/org/projects.org"
+                                                         "~/Dropbox/org/ives_tasks.org"
+                                                         "~/Dropbox/org/ives_projects.org"
+                                                         "~/Dropbox/org/tickler.org"))
+  (setq org-agenda-files "C:/Users/JonathanCyr/Dropbox/org/tasks.org" 
+                         "C:/Users/JonathanCyr/Dropbox/org/projects.org"
+                         "C:/Users/JonathanCyr/Dropbox/org/ives_tasks.org"
+                         "C:/Users/JonathanCyr/Dropbox/org/ives_projects.org"))
+
+; These are my GTD contexts
+(setq org-tag-alist '(("@work" . ?w)
+		      ("@home" . ?h)
+		      ("@pc" . ?p)
+                      ("@plan" . ?q) 
+                      ("@schedule" . ?s)
+		      ("@read" . ?r)
+		      ("@watch" . ?W)
+		      ("@listen" . ?l)
+		      ("@contact" . ?c)
+		      ("@blog" . ?b)
+                      ("@nextaction" . ?n)
+                      ("@organize" . ?o)
+		      ("@errands" . ?e)))
+
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cc" 'org-capture)
+(define-key global-map "\C-cw" 'org-refile)
+(define-key global-map "\C-cd" 'org-deadline)
+(define-key global-map "\C-cq" 'org-set-tags-command)
+
+(setq org-default-notes-file "~Dropbox/org/inbox.org")
+(setq org-display-inline-images t) 
+(setq org-redisplay-inline-images t)
+(setq org-startup-with-inline-images "inlineimages")
+
+(setq org-refile-use-outline-path 'file)
+(setq org-refile-targets '((org-agenda-files :level . 1)
+                           ("~/Dropbox/org/someday.org" :level . 1)
+                           ("~/Dropbox/org/ives_someday.org" :level . 1)))
+(setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+
+(setq org-agenda-custom-commands
+      '(("w" "Agenda with work-related tasks"
+	 ((agenda "")
+	  (tags-todo "@work")))
+      ("r" "Agenda with things that need to be refiled"
+	 ((agenda "")
+	  (tags "refile")))
+      ("n" "All next action items"
+         ((agenda "")
+          (tags "@nextaction")))))
+
+(setq org-capture-templates
+ '(("w" "Ives tasks inbox" entry (file "~/Dropbox/org/ives_tasks.org")
+        "* TODO ")
+   ("i" "Quick capture inbox" entry (file "~/Dropbox/org/tasks.org")
+        "* TODO")
+   ("b" "Quick capture for blog" entry (file+headline "~/Dropbox/org/blog.org" "Inbox")
+        "** TODO")))
+
+(setq org-archive-location "~/Dropbox/org/archive/%s_archive::")
+#+END_SRC
+
+Here are some org-related packages that I use:
+#+BEGIN_SRC emacs-lisp 
+(use-package org-caldav 
+  :init
+  (setq org-caldav-url "https://caldav.fastmail.com/dav/calendars/user/jonathancyr@fastmail.com/") 
+  (setq org-caldav-calendar-id "64404e83-eb82-4e71-9da3-30f49b85c831")
+  (setq org-caldav-inbox "~/Dropbox/org/calendar.org")
+  (setq org-caldav-files '("~/Dropbox/org/tickler.org")))   
+#+END_SRC  
+* Programming
+#+BEGIN_SRC emacs-lisp
+(use-package eldoc 
+  :diminish)
+
+(defun do-nothing ()
+  (interactive) 
+  (whitespace-mode -1) 
+  (flycheck-mode -1) 
+  (electric-indent-local-mode -1))
+
+(use-package company
+  :diminish)
+(add-hook 'after-init-hook 'global-company-mode)
+(setq company-minimum-prefix-length 1) 
+(setq company-idle-delay 0.1)
+
+(use-package company-quickhelp)
+; case sensitive completion 
+(defvar company-dabbrev-ignore-case nil)
+; keep case when completing words 
+(defvar company-dabbrev-downcase nil)
+
+(use-package yasnippet
+  :diminish
+)
+(yas-global-mode 1)
+
+(show-paren-mode 1)
+
+(use-package rainbow-delimiters)
+
+(use-package markdown-mode)
+(use-package smartparens)
+(add-hook 'php-mode-hook #'smartparens-mode)
+
+(use-package indent-guide)
+(indent-guide-global-mode)
+
+(setq whitespace-style '(face spaces space-mark tabs tab-mark empty))
+(setq whitespace-action nil) 
+
+(use-package git-gutter
+  :diminish)
+(custom-set-variables
+ '(git-gutter:handled-backends '(git hg)))
+(custom-set-variables
+ '(git-gutter:update-interval 2))
+(global-git-gutter-mode t) 
+
+(global-set-key (kbd "C-x v =") 'git-gutter:popup-diff)
+(global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
+(global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
+#+END_SRC
+** Flycheck
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck-pos-tip)
+
+(use-package flycheck 
+  :diminish
+  :preface 
+  (global-flycheck-mode) 
+  (flycheck-pos-tip-mode)
+  :config 
+  (setq flycheck-check-syntax-automatically '(save))) 
+#+END_SRC
+
+** Version Control 
+*** Mercurial 
+#+BEGIN_SRC emacs-lisp
+(use-package monky) 
+#+END_SRC 
+* Languages
+** PHP
+Here's my best analogy for PHP:
+
+Imagine all programming languages as truck drivers on the highway. For /normal/ drivers, when the brakes stop working on their truck 
+they pull off to a patch of sand to slow down. The /PHP/ driver sees that the brakes are gone, but keeps on going because the gas still works.
+
+Anyway, here's my attempt at making Emacs a great PHP editor.
+
+ 
+To set up phpcbf:
+1. Install PHP_CodeSniffer via PEAR
+   1. This will place the phpcs and phpbf binaries within /usr/bin/ 
+2. Place the phpcbf lines you see below in your config file 
+
+Also - flycheck will use phpcs to check your styling on the fly
+
+Most of my configuration hooks into php-mode, except for this below:
+- [[https://github.com/arnested/php-extras][php-extras]]
+- [[https://github.com/emacs-php/php-auto-yasnippets][php-auto-yasnippets]]
+#+BEGIN_SRC emacs-lisp
+;(use-package php-extras)
+;(use-package php-auto-yasnippets
+  ;:diminish)
+;(setq php-auto-yasnippet-php-program "~/.emacs.d/php-auto-yasnippets/Create-PHP-YASnippet.php")
+;(define-key php-mode-map (kbd "C-c C-y") 'yas/create-php-snippet)
+#+END_SRC 
+
+This is the main part of my configuration for getting PHP to work on Emacs. 
+#+BEGIN_SRC emacs-lisp
+(use-package php-mode
+  :mode
+  (("[^.][^t][^p][^l]\\.php$" . php-mode))
+  :config
+  (add-hook 'php-mode-hook
+	    '(lambda ()
+               (setq indent-tabs-mode nil)
+               (setq c-basic-offset 4)
+               (setq php-template-compatibility nil)
+               (php-enable-psr2-coding-style)
+
+               (use-package company-php
+                 :diminish)
+
+               (setq-local company-dabbrev-minimum-length 1)
+               (setq-local company-dabbrev-code-time-limit 2)
+               (setq-local company-dabbrev-char-regexp "\\\`$sw")
+               (setq-local company-dabbrev-code-everywhere t) 
+
+               (setq-local company-transformers '(company-sort-by-occurrence)) 
+               (setq-local company-minimum-prefix-length 1)
+               (setq-local company-idle-delay 0.1)
+
+               (setq-local company-quickhelp-delay 0.1)
+
+               (company-quickhelp-mode)
+	       (company-mode t)
+               (ac-php-core-eldoc-setup)
+               ;(make-local-variable 'company-backends)
+               ;(add-to-list 'company-backends '((company-ac-php-backend company-dabbrev-code) company-capf))
+               (set (make-local-variable 'company-backends) 
+                    '((company-dabbrev-code company-ac-php-backend) company-capf company-files))
+              
+               ; [J]ump to a function definition (at point)  
+               (local-set-key (kbd "C-c j") 'ac-php-find-symbol-at-point)
+               ; Go [b]ack, after jumping 
+               (local-set-key (kbd "C-c b") 'ac-php-location-stack-back)
+               ; Go [f]orward 
+               (local-set-key (kbd "C-c f") 'ac-php-location-stack-forward) 
+               ; [S]how a function definition (at point) 
+               (local-set-key (kbd "C-c s") 'ac-php-show-tip)
+               ; [R]emake the tags (after a source has changed)  
+               (local-set-key (kbd "C-c r") 'ac-php-remake-tags)
+               ; Show project [i]nfo
+               (local-set-key (kbd "C-c i") 'ac-php-show-cur-project-info)  
+
+               (use-package phpcbf)
+	       (custom-set-variables
+		'(phpcbf-executable "/usr/bin/phpcbf")
+		'(phpcbf-standard "PSR2"))
+	       (local-set-key (kbd "C-c o") 'phpcbf)
+
+               ; To prevent PHP mode from possibly setting 
+               ; this variable, I want ethan-wspace to handle it
+               (setq-local mode-require-final-newline nil)
+               (setq-local require-final-newline nil) 
+
+               ; ethan-wspace is an extension that handles whitespace much more carefully 
+               ; I wanted to prevent trailing whitespaces from getting deleted when I edit a file 
+               ; so that the diff was not ambiguous
+               (delete-trailing-whitespace nil)
+	       (use-package ethan-wspace
+                 :config 
+                 (ethan-wspace-mode 1)
+                 (ethan-wspace-highlight-eol-mode 1)
+                 (ethan-wspace-highlight-many-nls-eof-mode 1)
+                 (ethan-wspace-highlight-no-nl-eof-mode 1)
+                 (ethan-wspace-highlight-tabs-mode 1)
+                 (setq-local ethan-wspace-errors nil))
+))) 
+#+END_SRC

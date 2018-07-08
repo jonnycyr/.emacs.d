@@ -1,0 +1,34 @@
+# ------------------
+# file endings
+# ------------------
+
+*.elc
+*~
+
+# -----
+# files
+# -----
+
+custom.el
+recentf
+session.*
+org-caldav-*
+ido*
+network-security*
+.init.el*
+bookmarks
+.last-package-update-day
+.org-id-locations
+ac-comphist.dat
+
+# --------------------
+# packages/directories 
+# --------------------
+config/
+elpa/
+eshell/
+php-auto-yasnippets/
+phpstan/
+powerline-evil/
+powerline/
+
