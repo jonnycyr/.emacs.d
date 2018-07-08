@@ -79,6 +79,13 @@ There's some stuff that I definitely /shouldn't/ share on github.
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
+#+END_SRC
+* Custom Code  
+I've written some scripts, so I load them in here. 
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/code/")
+(require 'jonny-org) 
 #+END_SRC 
 * Navigation
 ** Evil 

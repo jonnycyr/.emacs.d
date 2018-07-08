@@ -34,6 +34,12 @@
 
 (setq inhibit-eol-conversion t)
 
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
+(add-to-list 'load-path "~/.emacs.d/code/")
+(require 'jonny-org)
+
 ;bind c-x r to redo and c-r to isearch-backward
 (use-package evil
   :ensure t
