@@ -14,9 +14,9 @@
 	(project-desc (read-from-minibuffer "Enter a small description: "))
 	(project-url (read-from-minibuffer "Enter a project url: "))
 	(project-tag (read-from-minibuffer "Enter a tag: ")))
-  (insert (format "* %s
-%s\n
-%s\n
+  (insert (format "* TODO %s
+*description*: %s\n
+*url*: %s\n
 ** tasks
 ** testing
 *** setting up test environment
@@ -31,7 +31,7 @@
 		  project-desc
 		  project-url
 		  ))
-  (search-backward (format "* %s" project-name))
+  (search-backward (format "* TODO %s" project-name))
   (org-set-tags-to project-tag)
   ))
 

@@ -39,6 +39,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/code/")
 (require 'jonny-org)
+(require 'jonny-php)
 
 ;bind c-x r to redo and c-r to isearch-backward
 (use-package evil
@@ -315,19 +316,19 @@
 
                ; To prevent PHP mode from possibly setting 
                ; this variable, I want ethan-wspace to handle it
-               (setq-local mode-require-final-newline nil)
-               (setq-local require-final-newline nil) 
+               ;(setq-local mode-require-final-newline nil)
+               ;(setq-local require-final-newline nil) 
 
                ; ethan-wspace is an extension that handles whitespace much more carefully 
                ; I wanted to prevent trailing whitespaces from getting deleted when I edit a file 
                ; so that the diff was not ambiguous
-               (delete-trailing-whitespace nil)
-	       (use-package ethan-wspace
-                 :config 
-                 (ethan-wspace-mode 1)
-                 (ethan-wspace-highlight-eol-mode 1)
-                 (ethan-wspace-highlight-many-nls-eof-mode 1)
-                 (ethan-wspace-highlight-no-nl-eof-mode 1)
-                 (ethan-wspace-highlight-tabs-mode 1)
-                 (setq-local ethan-wspace-errors nil))
+               ;(delete-trailing-whitespace nil)
+	       ;(use-package ethan-wspace
+               ;  :config 
+               ;  (ethan-wspace-mode 1)
+               ;  (ethan-wspace-highlight-eol-mode 1)
+               ;  (ethan-wspace-highlight-many-nls-eof-mode 1)
+               ;  (ethan-wspace-highlight-no-nl-eof-mode 1)
+                ; (ethan-wspace-highlight-tabs-mode 1)
+                ; (setq-local ethan-wspace-errors nil))
 )))
