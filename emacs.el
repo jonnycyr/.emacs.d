@@ -37,6 +37,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(global-auto-revert-mode t)
+
 (add-to-list 'load-path "~/.emacs.d/code/")
 (require 'jonny-org)
 (require 'jonny-php)
@@ -79,6 +81,31 @@
               (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-quick-look)
               (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
               (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
+
+(use-package discover
+  :config
+  (global-discover-mode 1) 
+)
+
+(discover-add-context-menu
+  :context-menu '(isearch 
+               (description "Isearch, occur and highlighting")
+               (actions 
+                ("Isearch"
+                 ("C-s" "isearch forward"))))
+  :bind "M-s")
+
+(discover-add-context-menu 
+  :context-menu '(php-mode
+                   (description "PHP major mode related actions and keybindings") 
+                   (actions
+                     ("ac-php"
+                       ("C-c j" "ac-php-find-symbol-at-point: Jump to a function definition")
+                       ("C-c b" "ac-php-location-stack-back: Go back, after jumping") 
+                       ("C-c s" "ac-php-show-tip: Show a function's info")
+                       ("C-c r" "ac-php-remake-tags: Re-index files") 
+                       ("C-c i" "ac-php-show-cur-project-info: Show current project info"))))
+  :bind "M-p")
 
 (set-default-font "-*-Hack-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
 (add-to-list 'default-frame-alist 
@@ -191,6 +218,8 @@
   (setq org-caldav-calendar-id "64404e83-eb82-4e71-9da3-30f49b85c831")
   (setq org-caldav-inbox "~/Dropbox/org/calendar.org")
   (setq org-caldav-files '("~/Dropbox/org/tickler.org")))
+
+(use-package htmlize)
 
 (use-package eldoc 
   :diminish)
