@@ -147,6 +147,8 @@
 
 (use-package ediff)
 
+(setq org-directory "~/Dropbox/org")
+
 (if (eq system-type 'gnu/linux) (setq org-agenda-files '("~/Dropbox/org/tasks.org" 
                                                          "~/Dropbox/org/projects.org"
                                                          "~/Dropbox/org/ives_tasks.org"

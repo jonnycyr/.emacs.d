@@ -7,7 +7,7 @@
 ;;; Code:
 (require 'org)
 
-(defun jonny-create-project()
+(defun jonny-org-create-project()
   "Asks for the project name, description, and url - then inserts an org entry based on that."
   (interactive)
   (let ((project-name (read-from-minibuffer "Enter the project name: "))
@@ -33,6 +33,16 @@
 		  ))
   (search-backward (format "* TODO %s" project-name))
   (org-set-tags-to project-tag)
+  ))
+
+;;; Using the themes found here: https://github.com/fniessen/org-html-themes
+(defun jonny-org-export-html()
+  (interactive)
+  (let ((org-files (directory-files org-directory))))
+  (while org-files
+    (find-file (concat "~/Dropbox/org/" (car org-files)))
+    (set-buffer (concat "~/Dropbox/org/" (car org-files)))
+    (org-html-export-to-html (concat "~/Dropbox/org/" (car org-files)))
   ))
 
 (provide 'jonny-org)
