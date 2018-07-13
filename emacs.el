@@ -212,6 +212,9 @@
 
 (setq org-archive-location "~/Dropbox/org/archive/%s_archive::")
 
+; To enforce ordering within tasks 
+(setq org-enforce-todo-dependencies t)
+
 (use-package org-caldav 
   :init
   (setq org-caldav-url "https://caldav.fastmail.com/dav/calendars/user/jonathancyr@fastmail.com/") 

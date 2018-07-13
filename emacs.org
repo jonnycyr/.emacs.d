@@ -285,6 +285,9 @@ Here are my custom org mode configs
         "** TODO")))
 
 (setq org-archive-location "~/Dropbox/org/archive/%s_archive::")
+
+; To enforce ordering within tasks 
+(setq org-enforce-todo-dependencies t)
 #+END_SRC
 
 Here are some org-related packages that I use:
