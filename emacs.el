@@ -307,15 +307,16 @@
                (setq php-template-compatibility nil)
                (php-enable-psr2-coding-style)
 
-               (use-package company-php
-                 :diminish)
+               ;(use-package company-php
+               ;  :diminish)
 
                (setq-local company-dabbrev-minimum-length 1)
                (setq-local company-dabbrev-code-time-limit 2)
                (setq-local company-dabbrev-char-regexp "\\\`$sw")
                (setq-local company-dabbrev-code-everywhere t) 
 
-               (setq-local company-transformers '(company-sort-by-occurrence)) 
+               (setq-local company-transformers '(company-sort-by-occurrence))
+               ;(setq-local company-transformers '(company-sort-by-backend-importance))
                (setq-local company-minimum-prefix-length 1)
                (setq-local company-idle-delay 0.1)
 
@@ -323,24 +324,77 @@
 
                (company-quickhelp-mode)
 	       (company-mode t)
-               (ac-php-core-eldoc-setup)
+
+               (use-package lsp-mode 
+                 :config 
+                 (setq lsp-response-timeout 25)) 
+               
+               (use-package lsp-ui 
+                 :after lsp-mode 
+                 :config
+
+                 (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+               (use-package company-lsp 
+                 :after (lsp-mode company)
+                 :config
+		 (set (make-local-variable 'company-backends) 
+		        '((company-lsp company-dabbrev-code) company-capf company-files)))
+
+               (require 'lsp-imenu)
+               (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+
+               (require 'lsp-ui-sideline)
+               (setq-local lsp-ui-sideline t)
+               (setq-local lsp-ui-sideline-show-flycheck nil)
+               (add-hook 'lsp-after-open-hook 'lsp-ui-sideline-enable)
+
+               (require 'lsp-ui-peek)  
+               (add-hook 'lsp-after-open-hook 'lsp-ui-peek-enable)
+
+               (setq lsp-ui-doc-position 'at-point
+                     lsp-ui-flycheck-live-reporting nil)
+
+               (add-to-list 'load-path "~/.emacs.d/lsp-php")
+               (require 'lsp-php)
+               (lsp-php-enable) 
+
+               ;(setq-local lsp-ui-flycheck-live-reporting nil)  
+               ;(setq-local lsp-ui-sideline-show-flycheck nil)
+               (setq-local flycheck-check-syntax-automatically '(save)) 
+
+               ; [j]ump to definition 
+               (local-set-key (kbd "C-c j") 'xref-find-definitions)
+               ; [f]ind all references 
+               (local-set-key (kbd "C-c f") 'xref-find-references)
+               ; [r]ename 
+               (local-set-key (kbd "C-c r") 'lsp-rename)
+               ; [d]escribe thing at point 
+               (local-set-key (kbd "C-c d") 'lsp-describe-thing-at-point) 
+               ; show documentation [u]nder point 
+               (local-set-key (kbd "C-c u") 'lsp-info-under-point) 
+               ; [h]ighlight all relevant references to the symbol under point 
+               (local-set-key (kbd "C-c h") 'lsp-symbol-highlight) 
+                 
+                 
+               ;(ac-php-core-eldoc-setup)
                ;(make-local-variable 'company-backends)
                ;(add-to-list 'company-backends '((company-ac-php-backend company-dabbrev-code) company-capf))
-               (set (make-local-variable 'company-backends) 
-                    '((company-dabbrev-code company-ac-php-backend) company-capf company-files))
+               ;(set (make-local-variable 'company-backends) 
+               ;     '((company-lsp company-dabbrev-code) company-capf company-files))
               
                ; [J]ump to a function definition (at point)  
-               (local-set-key (kbd "C-c j") 'ac-php-find-symbol-at-point)
+               ;(local-set-key (kbd "C-c j") 'ac-php-find-symbol-at-point)
                ; Go [b]ack, after jumping 
-               (local-set-key (kbd "C-c b") 'ac-php-location-stack-back)
+               ;(local-set-key (kbd "C-c b") 'ac-php-location-stack-back)
                ; Go [f]orward 
-               (local-set-key (kbd "C-c f") 'ac-php-location-stack-forward) 
+               ;(local-set-key (kbd "C-c f") 'ac-php-location-stack-forward) 
                ; [S]how a function definition (at point) 
-               (local-set-key (kbd "C-c s") 'ac-php-show-tip)
+               ;(local-set-key (kbd "C-c s") 'ac-php-show-tip)
                ; [R]emake the tags (after a source has changed)  
-               (local-set-key (kbd "C-c r") 'ac-php-remake-tags)
+               ;(local-set-key (kbd "C-c r") 'ac-php-remake-tags)
                ; Show project [i]nfo
-               (local-set-key (kbd "C-c i") 'ac-php-show-cur-project-info)  
+               ;(local-set-key (kbd "C-c i") 'ac-php-show-cur-project-info)  
 
                (use-package phpcbf)
 	       (custom-set-variables
