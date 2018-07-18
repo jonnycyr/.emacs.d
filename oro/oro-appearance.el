@@ -25,6 +25,10 @@
   :init
   (powerline-default-theme))
 
+(use-package powerline-evil
+  :init
+  (powerline-evil-vim-color-theme))
+
 (use-package diminish)
 
 (use-package delight)
