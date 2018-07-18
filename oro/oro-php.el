@@ -1,4 +1,4 @@
-;;; jonny-php.el --- PHP related functions I've created
+;;; oro-php.el --- PHP related functions I've created
 
 ;;; Commentary:
 
@@ -28,5 +28,5 @@
   (electric-indent-local-mode -1)
 )
 
-(provide 'jonny-php)
-;;; jonny-php.el ends here
+(provide 'oro-php)
+;;; oro-php.el ends here

@@ -1,4 +1,4 @@
-;;; jonny-org.el --- elisp functions that do org-related things
+;;; oro-org.el --- elisp functions that do org-related things
 
 
 ;;; Commentary:
@@ -45,5 +45,5 @@
     (org-html-export-to-html (concat "~/Dropbox/org/" (car org-files)))
   ))
 
-(provide 'jonny-org)
-;;; jonny-org.el ends here
+(provide 'oro-org)
+;;; oro-org.el ends here
