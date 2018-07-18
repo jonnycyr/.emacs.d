@@ -35,8 +35,9 @@
 
 (use-package dashboard
   :init
-  (setq dashboard-banner-logo-title "I use Emacs, which might be thought of as a thermonuclear word processor. - Neal Stephenson"
-	dashboard-startup-banner "~/.emacs.d/oro2.jpeg"
+  (setq ;; dashboard-banner-logo-title "I use Emacs, which might be thought of as a thermonuclear word processor. - Neal Stephenson"
+        dashboard-banner-logo-title "Whatever you lose, you'll find it again, but what you throw away you'll never get it back."
+	dashboard-startup-banner "~/.emacs.d/rurouni-kenshin-oro.jpg"
         dashboard-items '((bookmarks . 5)
                           (agenda . 5)))
   :config
