@@ -38,12 +38,12 @@
 ;;; Using the themes found here: https://github.com/fniessen/org-html-themes
 (defun jonny-org-export-html()
   (interactive)
-  (let ((org-files (directory-files org-directory))))
+  (let ((org-files (directory-files org-directory)))
   (while org-files
     (find-file (concat "~/Dropbox/org/" (car org-files)))
     (set-buffer (concat "~/Dropbox/org/" (car org-files)))
     (org-html-export-to-html (concat "~/Dropbox/org/" (car org-files)))
-  ))
+  )))
 
 (provide 'oro-org)
 ;;; oro-org.el ends here

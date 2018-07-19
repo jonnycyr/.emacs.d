@@ -12,6 +12,7 @@
 
 (global-hl-line-mode +1)
 
+;;; * Theme Settings
 (use-package monokai-theme)
 (use-package color-theme-sanityinc-tomorrow)
 ;; (color-theme-sanityinc-tomorrow-day)
@@ -29,17 +30,21 @@
   :init
   (powerline-evil-vim-color-theme))
 
+;;; [[https://github.com/myrjola/diminish.el][diminish]]
+;;; ** TODO remove diminish and just use delight
 (use-package diminish)
-
+;;; [[https://elpa.gnu.org/packages/delight.html][delight]]
 (use-package delight)
+
+;; dashboard-banner-logo-title "I use Emacs, which might be thought of as a thermonuclear word processor. - Neal Stephenson"
 
 (use-package dashboard
   :init
-  (setq ;; dashboard-banner-logo-title "I use Emacs, which might be thought of as a thermonuclear word processor. - Neal Stephenson"
-        dashboard-banner-logo-title "Whatever you lose, you'll find it again, but what you throw away you'll never get it back."
-	dashboard-startup-banner "~/.emacs.d/rurouni-kenshin-oro.jpg"
+  (setq dashboard-banner-logo-title "Whatever you lose, you'll find it again, but what you throw away you'll never get it back. - Himura Kenshin"
+	dashboard-startup-banner 'logo
         dashboard-items '((bookmarks . 5)
                           (agenda . 5)))
+  ;; (setq dashboard-startup-banner "~/.emacs.d/oro/rurouni-kenshin-oro.jpg")
   :config
   (dashboard-setup-startup-hook))
 
