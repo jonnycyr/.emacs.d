@@ -61,6 +61,7 @@
 (require 'oro-appearance)
 (require 'oro-org)
 (require 'oro-php)
+(require 'oro-lsp)
 
 ;; Appearance
 (use-package beacon 
@@ -242,8 +243,8 @@
                (setq-local company-dabbrev-char-regexp "\\\`$sw")
                (setq-local company-dabbrev-code-everywhere t) 
 
-               (setq-local company-transformers '(company-sort-by-occurrence))
-               ;(setq-local company-transformers '(company-sort-by-backend-importance))
+               ;(setq-local company-transformers '(company-sort-by-occurrence))
+               (setq-local company-transformers '(company-sort-by-backend-importance))
                (setq-local company-minimum-prefix-length 1)
                (setq-local company-idle-delay 0.1)
 
@@ -252,36 +253,12 @@
                (company-quickhelp-mode)
 	       (company-mode t)
 
-               (use-package lsp-mode 
-                 :config 
-                 (setq lsp-response-timeout 25)) 
+	       ;; Using :with and company-sort-by-backend-importance makes
+	       ;; it so that company-lsp entries will always appear before
+	       ;; company-dabbrev-code 
+	       (set (make-local-variable 'company-backends)
+                    '((company-lsp :with company-dabbrev-code)))
                
-               (use-package lsp-ui 
-                 :after lsp-mode 
-                 :config
-
-                 (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-
-               (use-package company-lsp 
-                 :after (lsp-mode company)
-                 :config
-		 (set (make-local-variable 'company-backends) 
-		        '((company-lsp company-dabbrev-code) company-capf company-files)))
-
-               (require 'lsp-imenu)
-               (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
-
-               (require 'lsp-ui-sideline)
-               (setq-local lsp-ui-sideline t)
-               (setq-local lsp-ui-sideline-show-flycheck nil)
-               (add-hook 'lsp-after-open-hook 'lsp-ui-sideline-enable)
-
-               (require 'lsp-ui-peek)  
-               (add-hook 'lsp-after-open-hook 'lsp-ui-peek-enable)
-
-               (setq lsp-ui-doc-position 'at-point
-                     lsp-ui-flycheck-live-reporting nil)
-
                (add-to-list 'load-path "~/.emacs.d/lsp-php")
                (require 'lsp-php)
                (lsp-php-enable) 
