@@ -66,6 +66,14 @@
 (require 'oro-lsp)
 (require 'oro-php)
 
+(use-package projectile
+  :config
+  (projectile-mode +1))
+
+(use-package helm-projectile
+  :config
+  (helm-projectile-on))
+
 ;; Appearance
 (use-package beacon 
   :init 
@@ -214,6 +222,12 @@
 (global-set-key (kbd "C-x v =") 'git-gutter:popup-diff)
 (global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
 (global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
+
+(use-package hl-todo)
+(define-key hl-todo-mode-map (kbd "C-c p") 'hl-todo-previous)
+(define-key hl-todo-mode-map (kbd "C-c n") 'hl-todo-next)
+(define-key hl-todo-mode-map (kbd "C-c o") 'hl-todo-occur)
+(global-hl-todo-mode)
 
 (use-package flycheck-pos-tip)
 

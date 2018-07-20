@@ -42,6 +42,10 @@
 
                (add-to-list 'load-path "~/.emacs.d/lsp-php")
                (require 'lsp-php)
+	       (custom-set-variables
+		;; Composer.json detection after Projectile.
+		'(lsp-php-workspace-root-detectors (quote (lsp-php-root-projectile lsp-php-root-composer-json lsp-php-root-vcs)))
+	       )
                (lsp-php-enable)
 
                ;(setq-local lsp-ui-flycheck-live-reporting nil)
@@ -82,10 +86,11 @@
                ;(local-set-key (kbd "C-c i") 'ac-php-show-cur-project-info)
 
                (use-package phpcbf)
-	       (custom-set-variables
-		'(phpcbf-executable "/usr/bin/phpcbf")
-		'(phpcbf-standard "PSR2"))
-	       (local-set-key (kbd "C-c o") 'phpcbf)
+	       (setq phpcbf-executable "~/.composer/vendor/squizlabs/php_codesniffer/scripts/phpcbf"
+		     phpcbf-standard "PSR2")
+	       ;(custom-set-variables
+		;'(phpcbf-executable "~/.composer/vendor/bin/phpcbf")
+		;'(phpcbf-standard "PSR2"))
 
                ; To prevent PHP mode from possibly setting
                ; this variable, I want ethan-wspace to handle it
