@@ -10,6 +10,10 @@ when he's confused.
 
 ** Setup 
 *** oro/
-The core of Oro - this directory includes files that handle all of the core functionalities. 
+The core of Oro - this directory includes files that handle all of the core functionalities.
+
+For me, I consider core functionalities to be better defaults and completion.
+
+- oro-completion.el 
 
 *** modules/

@@ -19,24 +19,10 @@
                ;(use-package company-php
                ;  :diminish)
 
-               (setq-local company-dabbrev-minimum-length 1)
-               (setq-local company-dabbrev-code-time-limit 2)
-               (setq-local company-dabbrev-char-regexp "\\\`$sw")
-               (setq-local company-dabbrev-code-everywhere t)
-
-               ;(setq-local company-transformers '(company-sort-by-occurrence))
-               (setq-local company-transformers '(company-sort-by-backend-importance))
-               (setq-local company-minimum-prefix-length 1)
-               (setq-local company-idle-delay 0.1)
-
-               (setq-local company-quickhelp-delay 0.1)
-
-               (company-quickhelp-mode)
-	       (company-mode t)
-
 	       ;; Using :with and company-sort-by-backend-importance makes
 	       ;; it so that company-lsp entries will always appear before
 	       ;; company-dabbrev-code
+	       (setq-local company-transformers '(company-sort-by-backend-importance))
 	       (set (make-local-variable 'company-backends)
                     '((company-lsp :with company-dabbrev-code)))
 

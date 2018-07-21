@@ -1,10 +1,10 @@
-;;; init.el --- \^-^/
+;;; init.el --- The configurations needed for every wandering samurai.
 
 ;;; Commentary:
 
 ;;; Code:
 
-;; Package Settings
+;;; Package Settings
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -14,36 +14,43 @@
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
-;; Use-package can be used to automatically install packages, except itself. This proves that the chicken came before the egg! 
+;; Use-package can be used to automatically install packages, except itself. This proves that the chicken came before the egg!
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
 (eval-when-compile
-  (require 'use-package)) 
-(require 'diminish)          
-(require 'bind-key)         
+  (require 'use-package))
 
-(setq-default use-package-always-ensure t)
+(unless (package-installed-p 'paradox)
+  (package-install 'paradox))
+(eval-when-compile
+  (require 'paradox))
+(paradox-enable)
+
+(setq use-package-always-ensure t)
 
 ;; I like keeping my packages up-to-date. I want to be able to use Emacs anywhere I can load my dotfiles - so I always want Emacs to act the same. Having
 ;; my packages always up-to-date is an easy way to make sure that they're all the same version.
-;; 
-;; The command (auto-package-update-now) will update installed Emacs packages right now. 
+;;
+;; The command (auto-package-update-now) will update installed Emacs packages right now.
 ;; The command (auto-package-update-maybe) will update packages if at least auto-package-update-interval days have passed since the last update.
 ;;
-;; [[https://github.com/rranelli/auto-package-update.el][auto-package-update]] 
+;; [[https://github.com/rranelli/auto-package-update.el][auto-package-update]]
 (require 'auto-package-update)
-(setq auto-package-update-prompt-before-update t)  
-(auto-package-update-maybe)  
+(setq auto-package-update-prompt-before-update t)
+(auto-package-update-maybe)
 
-;; There's some stuff that I definitely /shouldn't/ share on github. 
-;; (Just search for "removed password" on github) 
+(require 'diminish)
+(require 'bind-key)
+
+;; There's some stuff that I definitely /shouldn't/ share on github.
+;; (Just search for "removed password" on github)
 (load-file "~/Dropbox/org/secrets.el")
 (setq auth-sources
     '((:source "~/Dropbox/org/.authinfo.gpg")))
 
-;; Base Emacs options 
+;; Base Emacs options
 (fset 'yes-or-no-p 'y-or-n-p)
 (global-linum-mode -1)
 (scroll-bar-mode -1)
@@ -61,6 +68,7 @@
 (require 'oro-navigation)
 (require 'oro-appearance)
 (require 'oro-org)
+(require 'oro-appearance)
 
 ;;; oro-lsp needs to go before all settings for programming languages
 ;;; because it does the preliminary setup of LSP
@@ -76,13 +84,13 @@
   (helm-projectile-on))
 
 ;; Appearance
-(use-package beacon 
-  :init 
-  (beacon-mode 1)) 
+(use-package beacon
+  :init
+  (beacon-mode 1))
 
 (use-package rainbow-mode
   :diminish
-  :init 
+  :init
   (rainbow-mode 1))
 
 ;; Tools
@@ -95,12 +103,12 @@
 
 (setq org-directory "~/Dropbox/org")
 
-(if (eq system-type 'gnu/linux) (setq org-agenda-files '("~/Dropbox/org/tasks.org" 
+(if (eq system-type 'gnu/linux) (setq org-agenda-files '("~/Dropbox/org/tasks.org"
                                                          "~/Dropbox/org/projects.org"
                                                          "~/Dropbox/org/ives_tasks.org"
                                                          "~/Dropbox/org/ives_projects.org"
                                                          "~/Dropbox/org/tickler.org"))
-  (setq org-agenda-files "C:/Users/JonathanCyr/Dropbox/org/tasks.org" 
+  (setq org-agenda-files "C:/Users/JonathanCyr/Dropbox/org/tasks.org"
                          "C:/Users/JonathanCyr/Dropbox/org/projects.org"
                          "C:/Users/JonathanCyr/Dropbox/org/ives_tasks.org"
                          "C:/Users/JonathanCyr/Dropbox/org/ives_projects.org"))
@@ -109,7 +117,7 @@
 (setq org-tag-alist '(("@work" . ?w)
 		      ("@home" . ?h)
 		      ("@pc" . ?p)
-                      ("@plan" . ?q) 
+                      ("@plan" . ?q)
                       ("@schedule" . ?s)
 		      ("@read" . ?r)
 		      ("@watch" . ?W)
@@ -128,7 +136,7 @@
 (define-key global-map "\C-cq" 'org-set-tags-command)
 
 (setq org-default-notes-file "~Dropbox/org/inbox.org")
-(setq org-display-inline-images t) 
+(setq org-display-inline-images t)
 (setq org-redisplay-inline-images t)
 (setq org-startup-with-inline-images "inlineimages")
 
@@ -160,38 +168,27 @@
 
 (setq org-archive-location "~/Dropbox/org/archive/%s_archive::")
 
-; To enforce ordering within tasks 
+; To enforce ordering within tasks
 (setq org-enforce-todo-dependencies t)
 
-(use-package org-caldav 
+(use-package org-caldav
   :init
-  (setq org-caldav-url "https://caldav.fastmail.com/dav/calendars/user/jonathancyr@fastmail.com/") 
+  (setq org-caldav-url "https://caldav.fastmail.com/dav/calendars/user/jonathancyr@fastmail.com/")
   (setq org-caldav-calendar-id "64404e83-eb82-4e71-9da3-30f49b85c831")
   (setq org-caldav-inbox "~/Dropbox/org/calendar.org")
   (setq org-caldav-files '("~/Dropbox/org/tickler.org")))
 
 (use-package htmlize)
 
-(use-package eldoc 
+(use-package eldoc
   :diminish)
 
 (defun do-nothing ()
-  (interactive) 
-  (whitespace-mode -1) 
-  (flycheck-mode -1) 
+  (interactive)
+  (whitespace-mode -1)
+  (flycheck-mode -1)
   (electric-indent-local-mode -1))
 
-(use-package company
-  :diminish)
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-minimum-prefix-length 1) 
-(setq company-idle-delay 0.1)
-
-(use-package company-quickhelp)
-; case sensitive completion 
-(defvar company-dabbrev-ignore-case nil)
-; keep case when completing words 
-(defvar company-dabbrev-downcase nil)
 
 (use-package yasnippet
   :diminish
@@ -210,7 +207,7 @@
 (indent-guide-global-mode)
 
 (setq whitespace-style '(face spaces space-mark tabs tab-mark empty))
-(setq whitespace-action nil) 
+(setq whitespace-action nil)
 
 (use-package git-gutter
   :diminish)
@@ -218,7 +215,7 @@
  '(git-gutter:handled-backends '(git hg)))
 (custom-set-variables
  '(git-gutter:update-interval 2))
-(global-git-gutter-mode t) 
+(global-git-gutter-mode t)
 
 (global-set-key (kbd "C-x v =") 'git-gutter:popup-diff)
 (global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
@@ -232,13 +229,13 @@
 
 (use-package flycheck-pos-tip)
 
-(use-package flycheck 
+(use-package flycheck
   :diminish
-  :preface 
-  (global-flycheck-mode) 
+  :preface
+  (global-flycheck-mode)
   (flycheck-pos-tip-mode)
-  :config 
-  (setq flycheck-check-syntax-automatically '(save))) 
+  :config
+  (setq flycheck-check-syntax-automatically '(save)))
 
 (use-package monky)
 
