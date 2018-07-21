@@ -57,6 +57,7 @@
 
 ;; Loading everything
 (add-to-list 'load-path "~/.emacs.d/oro/")
+(add-to-list 'load-path "~/.emacs.d/modules/")
 (require 'oro-navigation)
 (require 'oro-appearance)
 (require 'oro-org)

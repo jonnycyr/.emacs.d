@@ -7,3 +7,9 @@
 This is my personal emacs configuration - it's currently a work in progress. I eventually intend for these set of configurations to be used by other people. 
 Since people who create a set of configs name that set - I'll name mine. This is called Oro, after what the character Kenshin (from Rurouni Kenshin) says 
 when he's confused. 
+
+** Setup 
+*** oro/
+The core of Oro - this directory includes files that handle all of the core functionalities. 
+
+*** modules/
