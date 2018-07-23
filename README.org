@@ -17,3 +17,26 @@ For me, I consider core functionalities to be better defaults and completion.
 - oro-completion.el 
 
 *** modules/
+** Tasks 
+*** TODO Fix the checker used for flycheck 
+I'm currently running into an issue where flycheck defaults to using LSP as the syntax checker. I'd like to either:
+- override flycheck so that is picks php-phpcs as the checker 
+- or make it so that LSP is used, but flycheck only shows up after save and not within lsp-ui-line
+*** TODO Fix deleting / pressing space lag 
+Holding down backspace or space has a noticeable lag. I think this may have to do with lsp-ui-doc, where 
+it's making calls to lsp-ui-doc between each backspace / space. 
+*** TODO Speed up LSP or go back to ac-php 
+I primarily program in PHP - lsp-php is nice but it isn't as fast as I would like it to be. I think I might 
+try to make some modifications so that it's faster, or I'll go back to using ac-php. 
+*** TODO Find a way to complete/order $this->
+When typing $this-> or $class-> there are candidates from that classes scope within the company pop up. This 
+is super helpful, but there are a couple of issues:
+- I can only type $this->, if I try to do $this->a on occasion the completion stops working 
+- Also, the candidates are not sorted as you type - so just doing $this-> will show all of whats available 
+  in alphabetical order - but if you do $this->h it won't show things starting with h first 
+*** TODO Find the best functions to use for jumping back and forth between definitions 
+Evil provides evil jump to and going back, but so does xref (which LSP uses). Find the best one to use.
+In addition, fix the keybindings so that they actually work!
+*** TODO Think about committing a task archive 
+It'd be interesting to keep track of a task archive for this readme file - so that I can see all the tasks I've 
+completed regarding Oro.

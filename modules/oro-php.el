@@ -47,7 +47,8 @@
                (lsp-php-enable)
 
 	       ;;; Flycheck Settings:
-               (setq-local flycheck-check-syntax-automatically '(save))
+               (setq-local flycheck-check-syntax-automatically 'save)
+	       (defvar-local flycheck-checker 'php-phpcs)
 
 	       ;;; Key Bindings:
                ;; [j]ump to definition

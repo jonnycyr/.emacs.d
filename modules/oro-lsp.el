@@ -27,7 +27,6 @@
 (require 'lsp-ui-doc)
 
 (setq lsp-ui-doc-position 'at-point
-      lsp-ui-flycheck-live-reporting nil
       lsp-ui-sideline-show-flycheck nil)
 
 (provide 'oro-lsp)
