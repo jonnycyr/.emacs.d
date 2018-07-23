@@ -69,6 +69,7 @@
 (require 'oro-appearance)
 (require 'oro-org)
 (require 'oro-appearance)
+(require 'oro-completion)
 
 ;;; oro-lsp needs to go before all settings for programming languages
 ;;; because it does the preliminary setup of LSP

@@ -1,18 +1,25 @@
 ;;;; oro-completion.el --- Completion settings using company-mode
 
 ;;;; Commentary:
-;;
-;; This is part of Oro core because I believe that a text editor should offer
-;; 
+
+;;; Why is this part of Oro core?
+
+;; I believe that a text editor should offer asynchronus completion -
+;; this makes the main purpose of a text editor much easier to do.
+
+;;; Why company-mode?
+
+;; company-mode was designed from the very beginning to be easy to
+;; create backends / frontends / whatever for it by having code that
+;; is understandable and nice on the eyes.  If you want to learn more
+;; about company (besides just looking at the configuration here),
+;; I strongly suggest to look at the source code to get a feel for what
+;; you can do.
 
 ;;;; Code:
 
-;;; Packages
-(use-package company)
-(use-package company-quickhelp)
-(use-package company-statistics)
-
 ;;; General company settings
+
 ;; I leave setting company-transformers for modules. The default
 ;; setting, company-sort-by-occurence, is perfect for normal use.
 ;; In particular cases, I use company-sort-by-backend-importance.
@@ -24,35 +31,44 @@
 ;; etc - and company-dabbrev-code handles all other strings
 ;; and things that company-lsp may miss.
 
-; minimum prefix length for idle completion
-(setq company-minimum-prefix-length 1)
+(use-package company
+  :init
+  ;; minimum prefix length for idle completion
+  (setq company-minimum-prefix-length 1)
 
-; idle delay in seconds until completion starts automatically
-(setq company-idle-delay 0.1)
+  ;; idle delay in seconds until completion starts automatically
+  (setq company-idle-delay 0.1)
 
-; idle delay in seconds until tool tip shows
-(setq company-tooltip-idle-delay 0.1)
+  ;; idle delay in seconds until tool tip shows
+  (setq company-tooltip-idle-delay 0.1)
 
-;; company-dabbrev settings
-(setq company-dabbrev-minimum-length 1)
-(setq company-dabbrev-code-time-limit 2)
+  ;; the minimum length for company-dabbrev candidates to appear
+  (setq company-dabbrev-minimum-length 1)
 
-; offer completions in comments and strings
-(setq company-dabbrev-code-everywhere t)
+  ;; company-dabbrev can spend at most 2 seconds looking for matches
+  (setq company-dabbrev-code-time-limit 2)
 
-; case sensitive completion
-(setq company-dabbrev-ignore-case nil)
+  ;; offer completions in comments and strings
+  (setq company-dabbrev-code-everywhere t)
 
-; keep case when completing words
-(setq company-dabbrev-downcase nil)
+  ;; case sensitive completion
+  (setq company-dabbrev-ignore-case nil)
 
+  ;; keep case when completing words
+  (setq company-dabbrev-downcase nil)
 
+  :config
+  (global-company-mode))
 
-(setq company-quickhelp-delay 0.1)
+(use-package company-quickhelp
+  :init
+  (setq company-quickhelp-delay 0.1)
+  :config
+  (company-quickhelp-mode))
 
-(add-hook 'after-init-hook 'global-company-mode)
-(add-hook 'after-init-hook 'company-quickhelp-mode)
-(add-hook 'after-init-hook 'company-statistics-mode)
+(use-package company-statistics
+  :config
+  (company-statistics-mode))
 
 (provide 'oro-completion)
 ;;; oro-completion.el ends here

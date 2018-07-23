@@ -1,31 +1,43 @@
-;;;; oro-php.el --- PHP related functions I've created
+;;;; oro-php.el --- PHP settings and php related functions I've created
 
 ;;;; Commentary:
 
+;;; Why do you use setq-local?
+
+;; Using setq-local makes it so that Emacs can act differently depending
+;; on the type of file in the buffer.  For example, with setq-local I make
+;; it so that PHP candidates for company only appear within PHP-mode buffers.
+
 ;;;; Code:
 
-;;;; PHP Settings
 (use-package php-mode
   :mode
   (("[^.][^t][^p][^l]\\.php$" . php-mode))
   :config
   (add-hook 'php-mode-hook
 	    '(lambda ()
-               (setq indent-tabs-mode nil)
-               (setq c-basic-offset 4)
-               (setq php-template-compatibility nil)
+	       ;;; PHP-mode settings:
+               (setq indent-tabs-mode nil
+		     c-basic-offset 4
+                     php-template-compatibility nil)
+
                (php-enable-psr2-coding-style)
 
-               ;(use-package company-php
-               ;  :diminish)
+	       ;;; PHP_CodeSniffer settings:
+               (use-package phpcbf
+		 :init
+		 (setq phpcbf-executable "~/.composer/vendor/squizlabs/php_codesniffer/scripts/phpcbf"
+		       phpcbf-standard "PSR2"))
 
+	       ;;; Company-mode settings:
 	       ;; Using :with and company-sort-by-backend-importance makes
 	       ;; it so that company-lsp entries will always appear before
-	       ;; company-dabbrev-code
+	       ;; company-dabbrev-code.
 	       (setq-local company-transformers '(company-sort-by-backend-importance))
 	       (set (make-local-variable 'company-backends)
                     '((company-lsp :with company-dabbrev-code)))
 
+	       ;;; LSP (Language Server Protocol) Settings:
                (add-to-list 'load-path "~/.emacs.d/lsp-php")
                (require 'lsp-php)
 	       (custom-set-variables
@@ -34,68 +46,25 @@
 	       )
                (lsp-php-enable)
 
-               ;(setq-local lsp-ui-flycheck-live-reporting nil)
-               ;(setq-local lsp-ui-sideline-show-flycheck nil)
+	       ;;; Flycheck Settings:
                (setq-local flycheck-check-syntax-automatically '(save))
 
-               ; [j]ump to definition
-               (local-set-key (kbd "C-c j") 'xref-find-definitions)
-               ; [f]ind all references
-               (local-set-key (kbd "C-c f") 'xref-find-references)
-               ; [r]ename
-               (local-set-key (kbd "C-c r") 'lsp-rename)
-               ; [d]escribe thing at point
-               (local-set-key (kbd "C-c d") 'lsp-describe-thing-at-point)
-               ; show documentation [u]nder point
-               (local-set-key (kbd "C-c u") 'lsp-info-under-point)
-               ; [h]ighlight all relevant references to the symbol under point
-               (local-set-key (kbd "C-c h") 'lsp-symbol-highlight)
+	       ;;; Key Bindings:
+               ;; [j]ump to definition
+               (bind-key "C-c j" 'xref-find-definitions)
+	       ;; jump [b]ack
+	       (bind-key "C-c b" 'xref-pop-marker-stack)
+               ;; [f]ind all references
+               (bind-key "C-c f" 'xref-find-references)
+               ;; [r]ename
+               (bind-key "C-c r" 'lsp-rename)
+               ;; [d]escribe thing at point
+               (bind-key "C-c d" 'lsp-describe-thing-at-point)
+               ;; show documentation [u]nder point
+               (bind-key "C-c u" 'lsp-info-under-point)
+               ;; [h]ighlight all relevant references to the symbol under point
+               (bind-key "C-c h" 'lsp-symbol-highlight))))
 
-
-               ;(ac-php-core-eldoc-setup)
-               ;(make-local-variable 'company-backends)
-               ;(add-to-list 'company-backends '((company-ac-php-backend company-dabbrev-code) company-capf))
-               ;(set (make-local-variable 'company-backends)
-               ;     '((company-lsp company-dabbrev-code) company-capf company-files))
-
-               ; [J]ump to a function definition (at point)
-               ;(local-set-key (kbd "C-c j") 'ac-php-find-symbol-at-point)
-               ; Go [b]ack, after jumping
-               ;(local-set-key (kbd "C-c b") 'ac-php-location-stack-back)
-               ; Go [f]orward
-               ;(local-set-key (kbd "C-c f") 'ac-php-location-stack-forward)
-               ; [S]how a function definition (at point)
-               ;(local-set-key (kbd "C-c s") 'ac-php-show-tip)
-               ; [R]emake the tags (after a source has changed)
-               ;(local-set-key (kbd "C-c r") 'ac-php-remake-tags)
-               ; Show project [i]nfo
-               ;(local-set-key (kbd "C-c i") 'ac-php-show-cur-project-info)
-
-               (use-package phpcbf)
-	       (setq phpcbf-executable "~/.composer/vendor/squizlabs/php_codesniffer/scripts/phpcbf"
-		     phpcbf-standard "PSR2")
-	       ;(custom-set-variables
-		;'(phpcbf-executable "~/.composer/vendor/bin/phpcbf")
-		;'(phpcbf-standard "PSR2"))
-
-               ; To prevent PHP mode from possibly setting
-               ; this variable, I want ethan-wspace to handle it
-               ;(setq-local mode-require-final-newline nil)
-               ;(setq-local require-final-newline nil)
-
-               ; ethan-wspace is an extension that handles whitespace much more carefully
-               ; I wanted to prevent trailing whitespaces from getting deleted when I edit a file
-               ; so that the diff was not ambiguous
-               ;(delete-trailing-whitespace nil)
-	       ;(use-package ethan-wspace
-               ;  :config
-               ;  (ethan-wspace-mode 1)
-               ;  (ethan-wspace-highlight-eol-mode 1)
-               ;  (ethan-wspace-highlight-many-nls-eof-mode 1)
-               ;  (ethan-wspace-highlight-no-nl-eof-mode 1)
-                ; (ethan-wspace-highlight-tabs-mode 1)
-                ; (setq-local ethan-wspace-errors nil))
-)))
 
 ;;;; PHP Related Custom Functions
 (require 'php-mode)
@@ -113,7 +82,7 @@
    (show-trailing-whitespace . t)
    (php-style-delete-trailing-whitespace . nil)))
 
-(defun jonny-php-save-whitespace()
+(defun oro-php-save-whitespace()
   "Prevents the deletion of any whitespace within a PHP file"
   (interactive)
   (php-set-style "psr2-whitespace")
