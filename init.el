@@ -73,7 +73,8 @@
 
 ;;; oro-lsp needs to go before all settings for programming languages
 ;;; because it does the preliminary setup of LSP
-(require 'oro-lsp)
+;;; It's currently commented out since I'm working out slowness related kinks in Oro
+;; (require 'oro-lsp)
 (require 'oro-php)
 
 (use-package projectile
@@ -240,6 +241,11 @@
 
 (use-package monky)
 
-(use-package transpose-frame) 
+(use-package transpose-frame)
+
+(use-package dumb-jump)
+
+(use-package ggtags)
+(setq ggtags-executable-directory "/usr/local/bin/bin/")
 
 ;;; init.el ends here
