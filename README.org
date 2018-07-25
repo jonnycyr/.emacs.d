@@ -40,3 +40,8 @@ In addition, fix the keybindings so that they actually work!
 *** TODO Think about committing a task archive 
 It'd be interesting to keep track of a task archive for this readme file - so that I can see all the tasks I've 
 completed regarding Oro.
+*** TODO Adjust company-lsp 
+company-lsp will complete on functions but for variables it shows a list of local available variables 
+in alphabetical order, rather than order by what's closets to what I'm typing 
+*** TODO Fix the key bindings in oro-php 
+They currently do not work - I think I need to look into how keymaps work 

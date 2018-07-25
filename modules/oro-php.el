@@ -47,16 +47,23 @@
                (lsp-php-enable)
 
 	       ;;; Flycheck Settings:
-               (setq-local flycheck-check-syntax-automatically 'save)
 	       (defvar-local flycheck-checker 'php-phpcs)
+               (setq-local flycheck-check-syntax-automatically '(save))
 
 	       ;;; Key Bindings:
+	       (require 'bind-key)
+	       
+	       (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+               (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+	       
                ;; [j]ump to definition
-               (bind-key "C-c j" 'xref-find-definitions)
+               (bind-key "C-c j" 'lsp-ui-peek-find-definitions)
+	       ;; jump [f]oward
+	       (bind-key "C-c f" 'lsp-ui-peek-jump-forward)
 	       ;; jump [b]ack
-	       (bind-key "C-c b" 'xref-pop-marker-stack)
-               ;; [f]ind all references
-               (bind-key "C-c f" 'xref-find-references)
+	       (bind-key "C-c b" 'lsp-ui-peek-jump-backward)
+               ;; find all [r]eferences
+               (bind-key "C-c r" 'lsp-ui-peek-find-references)
                ;; [r]ename
                (bind-key "C-c r" 'lsp-rename)
                ;; [d]escribe thing at point

@@ -60,7 +60,7 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(global-auto-revert-mode t)
+;; (global-auto-revert-mode t)
 
 ;; Loading everything
 (add-to-list 'load-path "~/.emacs.d/oro/")
@@ -239,5 +239,7 @@
   (setq flycheck-check-syntax-automatically '(save)))
 
 (use-package monky)
+
+(use-package transpose-frame) 
 
 ;;; init.el ends here

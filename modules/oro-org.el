@@ -14,7 +14,7 @@
 	(project-desc (read-from-minibuffer "Enter a small description: "))
 	(project-url (read-from-minibuffer "Enter a project url: "))
 	(project-tag (read-from-minibuffer "Enter a tag: ")))
-  (insert (format "* TODO %s
+  (insert (format "* TODO %s [/][%]
 *description*: %s\n
 *url*: %s\n
 ** tasks
