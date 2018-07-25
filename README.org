@@ -1,5 +1,11 @@
 * Oro?
 
+#+BEGIN_SRC html
+<a href=http://www.gnu.org/software/global/>
+<img src=pglobe.png alt='[Powered by GLOBAL]'>
+</a>
+#+END_SRC 
+
 [[~/.emacs.d/rurouni-kenshin-oro.jpg]]
 
 ![oro](~/.emacs.d/rurouni-kenshin-oro.jpg "Oro?")
