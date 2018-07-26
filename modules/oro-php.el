@@ -33,11 +33,12 @@
 	       ;; Using :with and company-sort-by-backend-importance makes
 	       ;; it so that company-lsp entries will always appear before
 	       ;; company-dabbrev-code.
+               ;; TODO Add in support for company-gtags/capf
 	       (use-package company-php)
 	       (ac-php-core-eldoc-setup)
 	       (setq-local company-transformers '(company-sort-by-backend-importance))
 	       (set (make-local-variable 'company-backends)
-		    '((company-ac-php-backend :with company-gtags company-dabbrev-code)))
+		    '((company-ac-php-backend :with company-dabbrev-code)))
                     ;; '((company-lsp :with company-dabbrev-code)))
 
 	       ;;; LSP (Language Server Protocol) Settings:
