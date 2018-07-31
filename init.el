@@ -79,19 +79,20 @@ Inserted by installing org-mode or when a release is made."
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-;; (global-auto-revert-mode t)
-
 ;; Loading everything
 (add-to-list 'load-path "~/.emacs.d/oro/")
+(add-to-list 'load-path "~/.emacs.d/lib")
 (add-to-list 'load-path "~/.emacs.d/modules/")
 
 ;; Core
 (require 'oro-navigation)
 (require 'oro-completion)
+(require 'oro-org)
+
+;; Lib
+(require 'oro-lib-org)
 
 ;; Modules
-(require 'oro-appearance)
-(require 'oro-org)
 (require 'oro-appearance)
 
 ;;; oro-lsp needs to go before all settings for programming languages
@@ -99,14 +100,6 @@ Inserted by installing org-mode or when a release is made."
 ;;; It's currently commented out since I'm working out slowness related kinks in Oro
 ;; (require 'oro-lsp)
 (require 'oro-php)
-
-(use-package projectile
-  :config
-  (projectile-mode +1))
-
-(use-package helm-projectile
-  :config
-  (helm-projectile-on))
 
 ;; Appearance
 (use-package beacon
@@ -161,8 +154,6 @@ Inserted by installing org-mode or when a release is made."
 (define-key global-map "\C-cq" 'org-set-tags-command)
 
 (setq org-default-notes-file "~Dropbox/org/inbox.org")
-(setq org-display-inline-images t)
-(setq org-redisplay-inline-images t)
 (setq org-startup-with-inline-images "inlineimages")
 
 (setq org-refile-use-outline-path 'file)
@@ -204,12 +195,6 @@ Inserted by installing org-mode or when a release is made."
   (setq org-caldav-files '("~/Dropbox/org/tickler.org")))
 
 (use-package htmlize)
-
-(defun do-nothing ()
-  (interactive)
-  (whitespace-mode -1)
-  (flycheck-mode -1)
-  (electric-indent-local-mode -1))
 
 (use-package yasnippet
   :diminish
@@ -262,7 +247,6 @@ Inserted by installing org-mode or when a release is made."
 
 (use-package transpose-frame)
 
-(use-package dumb-jump)
 
 (use-package ggtags)
 (setq ggtags-executable-directory "/usr/local/bin/bin/")

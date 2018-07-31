@@ -82,5 +82,17 @@
                        ("C-c i" "ac-php-show-cur-project-info: Show current project info"))))
   :bind "M-p")
 
+(use-package projectile
+  :config
+  (projectile-mode +1))
+
+(use-package helm-projectile
+  :config
+  (helm-projectile-on))
+
+(use-package ggtags)
+(setq ggtags-executable-directory "/usr/local/bin/bin/")
+
+
 (provide 'oro-navigation)
 ;;; oro-navigation ends here
