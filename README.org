@@ -85,3 +85,4 @@ And turns it into an org booklet! That way, people can view this source code as 
 reading a book. 
 *** TODO Create a function that / write code that will strip comments from all .el files 
 This is for people that want to have a starting configuration without all the extra talk.
+*** TODO Create a function that compiles oro into one large org file
