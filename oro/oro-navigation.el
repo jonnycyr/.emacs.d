@@ -1,15 +1,28 @@
-;;; oro-navigation --- we all gotta go somewhere
-;;; Commentary:
+;;;; oro-navigation --- we all gotta go somewhere
+;;;; Commentary:
+
+;;; Why is this part of Oro core?
+
+;; Because we all gotta go somewhere.  Being able to quickly and easily
+;; navigate around code will make you more efficient and if not -
+;; at least you'll look cool with your cursor jumping everywhere.
+
+;;; Why evil?
+
+;;; Why helm?
+
 ;;; Code:
 ;; Navigation
 (use-package evil
-  :ensure t
+  :straight t
   :config
   (evil-mode))
 
+(use-package helm-fuzzier)
+(use-package helm-flx)
 (use-package helm
+  :straight t
   :diminish
-  :ensure t
   :init
   (progn
     (require 'helm-config)
@@ -32,7 +45,6 @@
 
 (setq which-key-idle-delay 0.5)
 (use-package which-key
-  :ensure t
   :hook (emacs-startup-hook . which-key-mode))
 
 (use-package neotree

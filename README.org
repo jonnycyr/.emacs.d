@@ -80,3 +80,8 @@ company-lsp will complete on functions but for variables it shows a list of loca
 in alphabetical order, rather than order by what's closets to what I'm typing 
 *** TODO Fix the key bindings in oro-php 
 They currently do not work - I think I need to look into how keymaps work 
+*** TODO Create a function that goes through the comments of each file 
+And turns it into an org booklet! That way, people can view this source code as if they were 
+reading a book. 
+*** TODO Create a function that / write code that will strip comments from all .el files 
+This is for people that want to have a starting configuration without all the extra talk.

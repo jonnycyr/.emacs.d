@@ -4,45 +4,64 @@
 
 ;;; Code:
 
-;;; Package Settings
-(require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+;;; straight.el setup
+;; bootstrap
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-;; Use-package can be used to automatically install packages, except itself. This proves that the chicken came before the egg!
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+;; install use-package
+(straight-use-package 'use-package)
+(straight-use-package 'diminish)
+(straight-use-package 'bind-key)
 
-(eval-when-compile
-  (require 'use-package))
+;; The following command is equivalent to use-package-always-ensure
+;; but instead straight.el is used instead of package.el
+(setq straight-use-package-by-default t)
 
-(unless (package-installed-p 'paradox)
-  (package-install 'paradox))
-(eval-when-compile
-  (require 'paradox))
-(paradox-enable)
+;; There's some issues installing org using straight.el -
+;; this hack gets around all of that (from the github page)
+(require 'subr-x)
+(straight-use-package 'git)
 
-(setq use-package-always-ensure t)
+(defun org-git-version ()
+  "The Git version of org-mode.
+Inserted by installing org-mode or when a release is made."
+  (require 'git)
+  (let ((git-repo (expand-file-name
+                   "straight/repos/org/" user-emacs-directory)))
+    (string-trim
+     (git-run "describe"
+              "--match=release\*"
+              "--abbrev=6"
+              "HEAD"))))
 
-;; I like keeping my packages up-to-date. I want to be able to use Emacs anywhere I can load my dotfiles - so I always want Emacs to act the same. Having
-;; my packages always up-to-date is an easy way to make sure that they're all the same version.
-;;
-;; The command (auto-package-update-now) will update installed Emacs packages right now.
-;; The command (auto-package-update-maybe) will update packages if at least auto-package-update-interval days have passed since the last update.
-;;
-;; [[https://github.com/rranelli/auto-package-update.el][auto-package-update]]
-(require 'auto-package-update)
-(setq auto-package-update-prompt-before-update t)
-(auto-package-update-maybe)
+(defun org-release ()
+  "The release version of org-mode.
+Inserted by installing org-mode or when a release is made."
+  (require 'git)
+  (let ((git-repo (expand-file-name
+                   "straight/repos/org/" user-emacs-directory)))
+    (string-trim
+     (string-remove-prefix
+      "release_"
+      (git-run "describe"
+               "--match=release\*"
+               "--abbrev=0"
+               "HEAD")))))
 
-(require 'diminish)
-(require 'bind-key)
+(provide 'org-version)
+
+(straight-use-package 'org) 
 
 ;; There's some stuff that I definitely /shouldn't/ share on github.
 ;; (Just search for "removed password" on github)
@@ -65,11 +84,15 @@
 ;; Loading everything
 (add-to-list 'load-path "~/.emacs.d/oro/")
 (add-to-list 'load-path "~/.emacs.d/modules/")
+
+;; Core
 (require 'oro-navigation)
+(require 'oro-completion)
+
+;; Modules
 (require 'oro-appearance)
 (require 'oro-org)
 (require 'oro-appearance)
-(require 'oro-completion)
 
 ;;; oro-lsp needs to go before all settings for programming languages
 ;;; because it does the preliminary setup of LSP
@@ -182,15 +205,11 @@
 
 (use-package htmlize)
 
-(use-package eldoc
-  :diminish)
-
 (defun do-nothing ()
   (interactive)
   (whitespace-mode -1)
   (flycheck-mode -1)
   (electric-indent-local-mode -1))
-
 
 (use-package yasnippet
   :diminish
