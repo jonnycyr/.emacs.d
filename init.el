@@ -121,15 +121,10 @@ Inserted by installing org-mode or when a release is made."
 
 (setq org-directory "~/Dropbox/org")
 
-(if (eq system-type 'gnu/linux) (setq org-agenda-files '("~/Dropbox/org/tasks.org"
-                                                         "~/Dropbox/org/projects.org"
-                                                         "~/Dropbox/org/ives_tasks.org"
-                                                         "~/Dropbox/org/ives_projects.org"
-                                                         "~/Dropbox/org/tickler.org"))
-  (setq org-agenda-files "C:/Users/JonathanCyr/Dropbox/org/tasks.org"
-                         "C:/Users/JonathanCyr/Dropbox/org/projects.org"
-                         "C:/Users/JonathanCyr/Dropbox/org/ives_tasks.org"
-                         "C:/Users/JonathanCyr/Dropbox/org/ives_projects.org"))
+(setq org-agenda-files '("~/Dropbox/org/next_actions.org"
+			"~/Dropbox/org/projects.org"
+			"~/Dropbox/org/work.org"
+			"~/Dropbox/org/inbox.org"))
 
 ; These are my GTD contexts
 (setq org-tag-alist '(("@work" . ?w)
@@ -159,28 +154,35 @@ Inserted by installing org-mode or when a release is made."
 (setq org-refile-use-outline-path 'file)
 (setq org-refile-targets '((org-agenda-files :level . 1)
                            ("~/Dropbox/org/someday.org" :level . 1)
-                           ("~/Dropbox/org/ives_someday.org" :level . 1)))
+                           ("~/Dropbox/org/ives_someday.org" :level . 1)
+			   ("~/Dropbox/org/inbox.org" :level . 1)
+			   ("~/Dropbox/org/work.org" :level . 1)
+			   ("~/Dropbox/org/next_actions.org" :level . 1)))
+      
 (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 
 (setq org-agenda-custom-commands
       '(("w" "Agenda with work-related tasks"
 	 ((agenda "")
-	  (tags-todo "@work")))
+	  (tags-todo "@work @nextaction")))
       ("r" "Agenda with things that need to be refiled"
 	 ((agenda "")
 	  (tags "refile")))
+      ("a" "Next action items, not work related"
+       ((agenda "")
+	(org-agenda-files '("~/Dropbox/org/next_actions.org"))
+	(tags "@nextaction")))
+      ("D" "All items that you are currently doing"
+       ((agenda "")
+	(todo "DOING")))
       ("n" "All next action items"
          ((agenda "")
-          (tags "@nextaction")))))
+          (tags-todo "@nextaction")))))
 
 (setq org-capture-templates
- '(("w" "Ives tasks inbox" entry (file "~/Dropbox/org/ives_tasks.org")
-        "* TODO ")
-   ("i" "Quick capture inbox" entry (file "~/Dropbox/org/tasks.org")
-        "* TODO")
-   ("b" "Quick capture for blog" entry (file+headline "~/Dropbox/org/blog.org" "Inbox")
-        "** TODO")))
+ ' (("i" "Quick capture inbox" entry (file "~/Dropbox/org/inbox.org")
+        "* TODO")))
 
 (setq org-archive-location "~/Dropbox/org/archive/%s_archive::")
 

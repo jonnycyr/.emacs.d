@@ -36,9 +36,13 @@
                ;; TODO Add in support for company-gtags/capf
 	       (use-package company-php)
 	       (ac-php-core-eldoc-setup)
-	       (setq-local company-transformers '(company-sort-by-backend-importance))
+               (setq-local company-dabbrev-char-regexp "\\\`$sw")
+               (setq-local company-dabbrev-code-everywhere t)
+	       ;(setq-local company-transformers '(company-sort-by-backend-importance))
 	       (set (make-local-variable 'company-backends)
-		    '((company-ac-php-backend :with company-dabbrev-code)))
+		    ;;'((company-ac-php-backend company-dabbrev-code)))
+		    '((company-ac-php-backend company-dabbrev-code :separate)))
+		    ;;'((company-ac-php-backend :with company-dabbrev-code)))
                     ;; '((company-lsp :with company-dabbrev-code)))
 
 	       ;;; LSP (Language Server Protocol) Settings:
@@ -58,21 +62,21 @@
 	       ;; (dumb-jump-mode)
 	       (ggtags-mode 1)
 	       ;; [J]ump to a function definition (at point)
-               ;; (local-set-key (kbd "C-c j") 'ac-php-find-symbol-at-point)
+               (local-set-key (kbd "C-c j") 'ac-php-find-symbol-at-point)
 	       ;; (local-set-key (kbd "C-c j") 'dumb-jump-go)
-	       (local-set-key (kbd "C-c j") 'ggtags-find-definition)
+	       ;; (local-set-key (kbd "C-c j") 'ggtags-find-definition)
 
 	       ;; Find [r]eferences (at point)
 	       (local-set-key (kbd "C-c r") 'ggtags-find-reference)
 
                ;; Go [b]ack, after jumping
 	       ;; (local-set-key (kbd "C-c b") 'dumb-jump-back)
-               ;; (local-set-key (kbd "C-c b") 'ac-php-location-stack-back)
-	       (local-set-key (kbd "C-c b") 'ggtags-prev-mark)
+               (local-set-key (kbd "C-c b") 'ac-php-location-stack-back)
+	       ;; (local-set-key (kbd "C-c b") 'ggtags-prev-mark)
 
                ;; Go [f]orward
-               ;; (local-set-key (kbd "C-c f") 'ac-php-location-stack-forward)
-	       (local-set-key (kbd "C-c f") 'ggtags-next-mark)
+               (local-set-key (kbd "C-c f") 'ac-php-location-stack-forward)
+	       ;; (local-set-key (kbd "C-c f") 'ggtags-next-mark)
 
                ;; [S]how a function definition (at point)
                (local-set-key (kbd "C-c s") 'ac-php-show-tip)
