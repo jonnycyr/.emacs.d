@@ -122,9 +122,10 @@ Inserted by installing org-mode or when a release is made."
 (setq org-directory "~/Dropbox/org")
 
 (setq org-agenda-files '("~/Dropbox/org/next_actions.org"
-			"~/Dropbox/org/projects.org"
-			"~/Dropbox/org/work.org"
-			"~/Dropbox/org/inbox.org"))
+			 "~/Dropbox/org/projects.org"
+			 "~/Dropbox/org/work_projects.org"
+			 "~/Dropbox/org/work_next_actions.org"
+			 "~/Dropbox/org/inbox.org"))
 
 ; These are my GTD contexts
 (setq org-tag-alist '(("@work" . ?w)
@@ -154,9 +155,9 @@ Inserted by installing org-mode or when a release is made."
 (setq org-refile-use-outline-path 'file)
 (setq org-refile-targets '((org-agenda-files :level . 1)
                            ("~/Dropbox/org/someday.org" :level . 1)
-                           ("~/Dropbox/org/ives_someday.org" :level . 1)
+                           ("~/Dropbox/org/work_someday.org" :level . 1)
 			   ("~/Dropbox/org/inbox.org" :level . 1)
-			   ("~/Dropbox/org/work.org" :level . 1)
+			   ("~/Dropbox/org/work_next_actions.org" :level . 1)
 			   ("~/Dropbox/org/next_actions.org" :level . 1)))
       
 (setq org-outline-path-complete-in-steps nil)         ; Refile in a single go
@@ -165,7 +166,7 @@ Inserted by installing org-mode or when a release is made."
 (setq org-agenda-custom-commands
       '(("w" "Agenda with work-related tasks"
 	 ((agenda "")
-	  (tags-todo "@work @nextaction")))
+	  (tags-todo "@work&@nextaction")))
       ("r" "Agenda with things that need to be refiled"
 	 ((agenda "")
 	  (tags "refile")))
