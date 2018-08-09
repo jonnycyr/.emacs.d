@@ -41,7 +41,8 @@
 	       ;(setq-local company-transformers '(company-sort-by-backend-importance))
 	       (set (make-local-variable 'company-backends)
 		    ;;'((company-ac-php-backend company-dabbrev-code)))
-		    '((company-ac-php-backend company-dabbrev-code :separate)))
+		    ;;'((company-ac-php-backend company-dabbrev-code :separate)))
+		    '((company-dabbrev-code company-ac-php-backend)))
 		    ;;'((company-ac-php-backend :with company-dabbrev-code)))
                     ;; '((company-lsp :with company-dabbrev-code)))
 

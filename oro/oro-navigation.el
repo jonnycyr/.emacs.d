@@ -43,9 +43,10 @@
 (helm-flx-mode 1)
 (helm-fuzzier-mode 1)
 
-(setq which-key-idle-delay 0.5)
 (use-package which-key
-  :hook (emacs-startup-hook . which-key-mode))
+  :config
+  (setq which-key-idle-delay 0.5)
+  (which-key-mode))
 
 (use-package neotree
   :config
