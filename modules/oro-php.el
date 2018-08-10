@@ -61,14 +61,14 @@
 
 	       ;;; Key Bindings:
 	       ;; (dumb-jump-mode)
-	       (ggtags-mode 1)
+	       ;; (ggtags-mode 1)
 	       ;; [J]ump to a function definition (at point)
                (local-set-key (kbd "C-c j") 'ac-php-find-symbol-at-point)
 	       ;; (local-set-key (kbd "C-c j") 'dumb-jump-go)
 	       ;; (local-set-key (kbd "C-c j") 'ggtags-find-definition)
 
 	       ;; Find [r]eferences (at point)
-	       (local-set-key (kbd "C-c r") 'ggtags-find-reference)
+	       ;; (local-set-key (kbd "C-c r") 'ggtags-find-reference)
 
                ;; Go [b]ack, after jumping
 	       ;; (local-set-key (kbd "C-c b") 'dumb-jump-back)

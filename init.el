@@ -173,7 +173,7 @@ Inserted by installing org-mode or when a release is made."
       ("a" "Next action items, not work related"
        ((agenda "")
 	(org-agenda-files '("~/Dropbox/org/next_actions.org"))
-	(tags "@nextaction")))
+	(tags "@nextaction-@work")))
       ("D" "All items that you are currently doing"
        ((agenda "")
 	(todo "DOING")))
@@ -251,7 +251,7 @@ Inserted by installing org-mode or when a release is made."
 (use-package transpose-frame)
 
 
-(use-package ggtags)
-(setq ggtags-executable-directory "/usr/local/bin/bin/")
+;;(use-package ggtags)
+;;(setq ggtags-executable-directory "/usr/local/bin/bin/")
 
 ;;; init.el ends here
