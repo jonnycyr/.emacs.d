@@ -250,6 +250,10 @@ Inserted by installing org-mode or when a release is made."
 
 (use-package transpose-frame)
 
+(use-package eyebrowse
+  :config
+  (eyebrowse-mode t))
+
 
 ;;(use-package ggtags)
 ;;(setq ggtags-executable-directory "/usr/local/bin/bin/")
