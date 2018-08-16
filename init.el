@@ -127,20 +127,18 @@ Inserted by installing org-mode or when a release is made."
 			 "~/Dropbox/org/work_next_actions.org"
 			 "~/Dropbox/org/inbox.org"))
 
-; These are my GTD contexts
+;; GTD contexts start with an @ sign
+;; All other tags are common ones that I use
 (setq org-tag-alist '(("@work" . ?w)
 		      ("@home" . ?h)
 		      ("@pc" . ?p)
-                      ("@plan" . ?q)
-                      ("@schedule" . ?s)
-		      ("@read" . ?r)
-		      ("@watch" . ?W)
-		      ("@listen" . ?l)
-		      ("@contact" . ?c)
-		      ("@blog" . ?b)
-                      ("@nextaction" . ?n)
-                      ("@organize" . ?o)
-		      ("@errands" . ?e)))
+		      ("@errands" . ?e)
+		      ("@contact" . ?c) 
+                      ("plan" . ?q)
+                      ("schedule" . ?s)
+		      ("blog" . ?b)
+                      ("next_action" . ?n)
+		      ("waiting_for" . ?w)))
 
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -166,20 +164,20 @@ Inserted by installing org-mode or when a release is made."
 (setq org-agenda-custom-commands
       '(("w" "Agenda with work-related tasks"
 	 ((agenda "")
-	  (tags-todo "@work&@nextaction")))
+	  (tags-todo "@work&next_action")))
       ("r" "Agenda with things that need to be refiled"
 	 ((agenda "")
 	  (tags "refile")))
       ("a" "Next action items, not work related"
        ((agenda "")
 	(org-agenda-files '("~/Dropbox/org/next_actions.org"))
-	(tags "@nextaction-@work")))
+	(tags "next_action-@work")))
       ("D" "All items that you are currently doing"
        ((agenda "")
 	(todo "DOING")))
       ("n" "All next action items"
          ((agenda "")
-          (tags-todo "@nextaction")))))
+          (tags-todo "next_action")))))
 
 (setq org-capture-templates
  ' (("i" "Quick capture inbox" entry (file "~/Dropbox/org/inbox.org")
@@ -253,6 +251,9 @@ Inserted by installing org-mode or when a release is made."
 (use-package eyebrowse
   :config
   (eyebrowse-mode t))
+
+(use-package multiple-cursors)
+(global-set-key (kbd "<f12>") 'mc/edit-lines)
 
 
 ;;(use-package ggtags)
