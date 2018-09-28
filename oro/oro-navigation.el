@@ -94,6 +94,11 @@
 (use-package ggtags)
 (setq ggtags-executable-directory "/usr/local/bin/bin/")
 
+;; A text folding minor mode for Emacs
+;; https://github.com/gregsexton/origami.el
+(use-package origami
+  :config
+  (add-hook 'prog-mode-hook #'origami-mode))
 
 (provide 'oro-navigation)
 ;;; oro-navigation ends here

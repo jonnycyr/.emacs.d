@@ -119,6 +119,11 @@ Inserted by installing org-mode or when a release is made."
 
 (use-package ediff)
 
+(use-package org-wiki
+  :straight (org-wiki :type git :host github :repo "caiorss/org-wiki")
+  :config
+  (setq org-wiki-location "~/Dropbox/org/"))
+
 (setq org-directory "~/Dropbox/org")
 
 (setq org-agenda-files '("~/Dropbox/org/next_actions.org"

@@ -48,5 +48,16 @@
   :config
   (dashboard-setup-startup-hook))
 
+;; Smooth-scrolling, minimap and distraction-free mode (inspired by the sublime editor)
+;; https://github.com/zk-phi/sublimity
+(use-package sublimity
+  :config
+  (require 'sublimity-scroll)
+  (require 'sublimity-attractive)
+  (setq sublimity-attractive-centering-width nil
+	sublimity-scroll-weight 5
+	sublimity-scroll-drift-length 10) 
+  (sublimity-mode 1))
+
 (provide 'oro-appearance)
 ;;; oro-appearance.el ends here
