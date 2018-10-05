@@ -118,6 +118,8 @@
 ;;;; PHP Related Custom Functions
 (require 'php-mode)
 (require 'cc-mode)
+(load "~/.emacs.d/straight/repos/ws-butler/ws-butler.el")
+(require 'ws-butler)
 
 ;;; Style is the same as the PSR2 style defined here:
 ;;; https://github.com/ejmr/php-mode/blob/cf1907be2ddca079146ef258ba95d525f17787e3/php-mode.el
@@ -131,15 +133,23 @@
    (show-trailing-whitespace . t)
    (php-style-delete-trailing-whitespace . nil)))
 
+;;;(defun oro-php-save-whitespace()
+;;;  "Prevents the deletion of any whitespace within a PHP file"
+;;;  (interactive)
+;;;  (php-set-style "psr2-whitespace")
+;;;  (setq-local delete-trailing-lines nil)
+;;;  (whitespace-mode -1)
+;;;  (flycheck-mode -1)
+;;;  (electric-indent-local-mode -1)
+;;;  )
+
 (defun oro-php-save-whitespace()
   "Prevents the deletion of any whitespace within a PHP file"
   (interactive)
   (php-set-style "psr2-whitespace")
   (setq-local delete-trailing-lines nil)
-  (whitespace-mode -1)
-  (flycheck-mode -1)
-  (electric-indent-local-mode -1)
-)
+  (ws-butler-mode t)
+  )
 
 (provide 'oro-php)
 ;;; oro-php.el ends here

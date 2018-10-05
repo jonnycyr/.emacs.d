@@ -260,6 +260,16 @@ Inserted by installing org-mode or when a release is made."
 (use-package multiple-cursors)
 (global-set-key (kbd "<f12>") 'mc/edit-lines)
 
+;; An unobtrusive way to trim spaces from end of line
+;; - Only lines touched gets trimmed
+;; - Triming only happens when saving
+;; Great package to use when working with legacy codebases - prevents noisy commits
+;;
+;; https://github.com/lewang/ws-butler
+(use-package ws-butler
+  :straight (ws-butler :type git :host github :repo "lewang/ws-butler") 
+  :config
+  (add-hook 'prog-mode-hook #'ws-butler-mode))
 
 ;;(use-package ggtags)
 ;;(setq ggtags-executable-directory "/usr/local/bin/bin/")
