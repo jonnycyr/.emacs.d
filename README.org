@@ -1,47 +1,9 @@
 * Oro?
 
-#+BEGIN_SRC html
-<a href=http://www.gnu.org/software/global/>
-<img src=pglobe.png alt='[Powered by GLOBAL]'>
-</a>
-#+END_SRC 
-
-[[~/.emacs.d/rurouni-kenshin-oro.jpg]]
-
-![oro](~/.emacs.d/rurouni-kenshin-oro.jpg "Oro?")
-
 This is my personal emacs configuration - it's currently a work in progress. I eventually intend for these set of configurations to be used by other people. 
-Since people who create a set of configs name that set - I'll name mine. This is called Oro, after what the character Kenshin (from Rurouni Kenshin) says 
-when he's confused.
- 
-** Setup 
-*** Settings up GNU Global and Universal-ctags 
-The GNU Global package on Ubuntu is really old, it's best to grab a tar file from here: https://ftp.gnu.org/pub/gnu/global/
+Since people who create a set of configs name that set - I'll name mine. 
 
-The exuberant-ctags package hasn't been worked on since 2009, so I use [[https://github.com/universal-ctags/ctags][Universal-ctags]]. 
-
-These instructions are meant for a Debian based system.
-
-1. git clone https://github.com/universal-ctags/ctags.git
-2. If you have autoconfm automake, and pkg-config you can skip these steps, otherwise:
-   1. sudo apt-get install autoconf
-   2. sudo apt-get install automake
-   3. sudo apt-get install pkg-config
-3. cd into the ctags directory
-4. Run the following (these steps are from the [[http://docs.ctags.io/en/latest/autotools.html][docs]] page):
-   1. ./autogen.sh
-   2. ./configure --prefix=/usr/local/bin
-   3. make
-   4. sudo make install
-5. Grab a tar file from https://ftp.gnu.org/pub/gnu/global/
-6. tar -xzvf global-<version_num>
-7. cd into the global-<version_num> directory
-8. If you do not have ncurses, run the following:
-   1. sudo apt-get install ncurses-dev
-9. Run the following:
-   1. ./configure --prefix=/usr/local/bin --with-universal-ctags=/usr/local/bin/ctags
-   2. make
-   3. sudo make install 
+This is called Oro, after what the character Kenshin (from Rurouni Kenshin) says when he's confused.
 
 ** Structure 
 *** oro/
